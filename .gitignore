@@ -34,6 +34,11 @@
 # Visual Studio IDE cache folder
 .vs/
 
+# Build files
+Debug/
+Release/
+x64/
+
 # Visual Studio solution file
 *.sln
 

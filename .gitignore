@@ -33,6 +33,7 @@
 
 # Visual Studio IDE cache folder
 .vs/
+.vscode/
 
 # Build files
 Debug/

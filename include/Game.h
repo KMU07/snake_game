@@ -8,21 +8,21 @@ class GameObject;
 class Renderer;
 
 using Time = std::chrono::system_clock::time_point;
-using Delay = std::chrono::duration<long long, std::ratio<1, 1000000>>;
+using MilliSec = std::chrono::milliseconds;
 
 using OnCollision = std::function<void(GameObject* const)>;
 using Callback = std::function<void()>;
 
 class InvokeManager final
 {
-    std::deque<std::tuple<Time, Delay, Callback, bool>> invokes;
+    std::deque<std::tuple<Time, MilliSec, Callback, bool>> invokes;
 
     // Add invoke function.
-    void addInvoke(Time invokedTime, Callback callback, Delay delay, bool isRepeat);
+    void addInvoke(Time invokedTime, Callback callback, MilliSec interval, bool isRepeat);
 
 public:
-    void invokeOnce(Callback callback, Delay delay);
-    void invokeRepeat(Callback callback, Delay interval);
+    void invokeOnce(Callback callback, MilliSec delay);
+    void invokeRepeat(Callback callback, MilliSec interval);
 
     // Check invokes and execute timeouted callbacks.
     void checkAndInvoke();
@@ -31,7 +31,7 @@ public:
 class Game
 {
     Renderer& renderer;
-    Delay frameDelay;
+    MilliSec frameDelay;
 
     std::deque<std::tuple<uint16_t, GameObject*, OnCollision>> collisionables;
     InvokeManager invokeManager;
@@ -50,10 +50,10 @@ private:
     virtual void update() = 0;
 
 protected:
-    virtual void setFrameDelay(Delay delay) final;
+    virtual void setFrameDelay(MilliSec delay) final;
 
-    virtual void invoke(Callback callback, Delay delay) final;
-    virtual void invokeRepeat(Callback callback, Delay interval) final;
+    virtual void invoke(Callback callback, MilliSec delay) final;
+    virtual void invokeRepeat(Callback callback, MilliSec interval) final;
 
     virtual void addCollisionable(GameObject* obj, OnCollision callback, uint16_t colliderOrder = 0) final;
     virtual void popCollisionable(GameObject* obj) final;

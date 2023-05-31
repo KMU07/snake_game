@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Game.h"
 
-void InvokeManager::addInvoke(Time nextInvokeTime, Callback callback, const Delay delay, const bool isRepeat)
+void InvokeManager::addInvoke(Time nextInvokeTime, Callback callback, const MilliSec interval, const bool isRepeat)
 {
     size_t targetIndex = invokes.size();
 
@@ -17,24 +17,24 @@ void InvokeManager::addInvoke(Time nextInvokeTime, Callback callback, const Dela
         }
     }
 
-    invokes.insert(invokes.begin() + targetIndex, { nextInvokeTime, delay, callback, isRepeat });
+    invokes.insert(invokes.begin() + targetIndex, { nextInvokeTime, interval, callback, isRepeat });
 }
 
-void InvokeManager::invokeOnce(Callback callback, const Delay delay)
+void InvokeManager::invokeOnce(Callback callback, const MilliSec delay)
 {
     const Time nextInvokeTime = std::chrono::system_clock::now() + delay;
     addInvoke(nextInvokeTime, callback, delay, false);
 }
 
-void InvokeManager::invokeRepeat(Callback callback, const Delay interval)
+void InvokeManager::invokeRepeat(Callback callback, const MilliSec ms)
 {
-    const Time nextInvokeTime = std::chrono::system_clock::now() + interval;
-    addInvoke(nextInvokeTime, callback, interval, true);
+    const Time nextInvokeTime = std::chrono::system_clock::now() + ms;
+    addInvoke(nextInvokeTime, callback, ms, true);
 }
 
 void InvokeManager::checkAndInvoke()
 {
-    std::queue<std::tuple<Time, Delay, Callback, bool>> invokeQueue;
+    std::queue<std::tuple<Time, MilliSec, Callback, bool>> invokeQueue;
 
     // Time cheking needs to be done quickly, and pop_back later.
     const Time now = std::chrono::system_clock::now();
@@ -47,8 +47,8 @@ void InvokeManager::checkAndInvoke()
     }
 
     // Remove invoked callbacks.
-    const size_t lastInvokedIndex = invokeQueue.size() + 1;
-    invokes.erase(invokes.begin(), invokes.begin() + lastInvokedIndex);
+    const size_t invokedSize = invokeQueue.size();
+    invokes.erase(invokes.begin(), invokes.begin() + invokedSize);
 
     // Call callback function and push_back again to invokes if isRepeat is true.
     while (!invokeQueue.empty())
@@ -94,17 +94,17 @@ void Game::run()
     }
 }
 
-void Game::setFrameDelay(const Delay delay)
+void Game::setFrameDelay(const MilliSec delay)
 {
     frameDelay = delay;
 }
 
-void Game::invoke(Callback callback, const Delay delay)
+void Game::invoke(Callback callback, const MilliSec delay)
 {
     invokeManager.invokeOnce(callback, delay);
 }
 
-void Game::invokeRepeat(Callback callback, const Delay interval)
+void Game::invokeRepeat(Callback callback, const MilliSec interval)
 {
     invokeManager.invokeRepeat(callback, interval);
 }

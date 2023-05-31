@@ -61,7 +61,7 @@ void InvokeManager::checkAndInvoke()
         if (isRepeat)
         {
             const Time nextInvokeTime = prevInvokeTime + interval;
-            this->addInvoke(prevInvokeTime, callback, interval, isRepeat);
+            this->addInvoke(nextInvokeTime, callback, interval, isRepeat);
         }
     }
 }

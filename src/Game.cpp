@@ -68,7 +68,10 @@ void InvokeManager::checkAndInvoke()
 
 void Game::run()
 {
+    // Initialize game
     this->start();
+    this->processObjectsCollision();
+    renderer.renderWorld();
 
     // Game loop
     while (!gameEnd)
@@ -78,15 +81,9 @@ void Game::run()
         invokeManager.checkAndInvoke();
         this->processObjectsCollision();
 
-        if (gameEnd)
-            break;
-
         // Update state and collision check
         this->update();
         this->processObjectsCollision();
-
-        if (gameEnd)
-            break;
 
         renderer.renderWorld();
 

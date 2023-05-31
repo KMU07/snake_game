@@ -1,6 +1,5 @@
 #pragma once
 #include <curses.h>
-#include <cstdint>
 
 struct Pixel
 {

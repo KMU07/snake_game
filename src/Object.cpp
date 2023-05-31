@@ -1,16 +1,15 @@
 #include "Object.h"
-
-
-// todo: Object::renderer initializer 구현 필요함
-Object::Object(std::string tag)
-    : tag(tag), renderer()
-{
-    // renderer.registObject(this);
-}
+#include "Renderer.h"
 
 Object::~Object()
 {
-    // renderer.deregistObject(this);
+    renderer.deregistObject(this);
+}
+
+Object::Object(std::string tag)
+    : renderer(Renderer::getInstance()), tag(tag)
+{
+    renderer.registObject(this);
 }
 
 uint16_t Object::getRenderOrder() const

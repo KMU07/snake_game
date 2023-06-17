@@ -22,9 +22,12 @@ public:
 
     Vector2Int operator-() const;
 
-    Vector2Int operator+(const Vector2Int& ref) const;
-    Vector2Int operator-(const Vector2Int& ref) const;
+    Vector2Int operator+(const Vector2Int &ref) const;
+    Vector2Int operator-(const Vector2Int &ref) const;
 
-    bool operator==(const Vector2Int& ref) const;
-    bool operator!=(const Vector2Int& ref) const;
+    bool operator==(const Vector2Int &ref) const;
+    bool operator!=(const Vector2Int &ref) const;
+
+    Vector2Int &operator+=(const Vector2Int &ref) const;
+    Vector2Int &operator-=(const Vector2Int &ref) const;
 };

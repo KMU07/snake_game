@@ -12,6 +12,7 @@ public:
     static const Vector2Int down;
     static const Vector2Int left;
     static const Vector2Int right;
+    static const Vector2Int zero;
 
     Vector2Int(int32_t x, int32_t y);
 

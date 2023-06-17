@@ -16,6 +16,10 @@ public:
 
     Vector2Int(int32_t x, int32_t y);
 
+    // Calculate the manhattan distance of a vector.
+    // return: abs(vector.x) + abs(vector.y)
+    int32_t manhattan() const;
+
     Vector2Int operator-() const;
 
     Vector2Int operator+(const Vector2Int& ref) const;

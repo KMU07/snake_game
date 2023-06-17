@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "Vector2Int.h"
 
 const Vector2Int Vector2Int::up(0, -1);
@@ -10,6 +11,11 @@ Vector2Int::Vector2Int(int32_t x, int32_t y)
 {
     this->x = x;
     this->y = y;
+}
+
+int32_t Vector2Int::manhattan() const
+{
+    return abs(this->x) + abs(this->y);
 }
 
 Vector2Int Vector2Int::operator-() const

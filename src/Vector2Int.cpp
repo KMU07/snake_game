@@ -26,3 +26,13 @@ Vector2Int Vector2Int::operator-(const Vector2Int& ref) const
 {
     return *this + -ref;
 }
+
+bool Vector2Int::operator==(const Vector2Int& ref) const
+{
+    return x == ref.x && y == ref.y;
+}
+
+bool Vector2Int::operator!=(const Vector2Int& ref) const
+{
+    return !operator==(ref);
+}

@@ -33,4 +33,10 @@ struct Pixel
 
     Vector2Int pos;
     chtype ch;
+
+    Pixel(Vector2Int position, chtype character)
+        : pos(position), ch(character)
+    {
+
+    }
 };

@@ -215,7 +215,8 @@ void Snake::onCollision(GameObject* other)
     }
     else if (other->tag == "Apple")
     {
-        this->addTail();
+        if (pixels.size() < status.maxLength)
+            this->addTail();
         status.appleGets++;
     }
     else if (other->tag == "Poison")

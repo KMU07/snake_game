@@ -97,7 +97,7 @@ void ScoreBoard::updateText()
     {
         const char c = gp[i];
         Pixel p;
-        p.pos = Vector2Int(boxX + i + 1, boxY + 5);
+        p.pos = Vector2Int(boxX + i + 1, boxY + 9);
         p.ch = c;
 
         texts.push_back(p);

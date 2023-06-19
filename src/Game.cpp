@@ -1,6 +1,11 @@
 #include <chrono>
+#include "Pixel.h"
 #include "GameEngine.h"
 #include "Game.h"
+
+Game::Game()
+    : engine(GameEngine::getInstance())
+{}
 
 void Game::setRenderDelay(const std::chrono::milliseconds delay)
 {
@@ -20,10 +25,10 @@ void Game::run()
 {
     while (enabled)
     {
-        engine.updateAll();
+        this->update();
         engine.processCollision();
 
-        this->update();
+        engine.updateAll();
         engine.processCollision();
 
         engine.render();

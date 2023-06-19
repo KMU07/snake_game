@@ -1,6 +1,7 @@
 #include <curses.h>
 #include <cassert>
 #include <deque>
+#include <set>
 #include "GameObject.h"
 #include "GameEngine.h"
 
@@ -10,6 +11,7 @@ GameEngine::GameEngine()
     initscr();
     curs_set(0);
     keypad(stdscr, true);
+    nodelay(stdscr, true);
     cbreak();
     noecho();
     start_color();
@@ -22,7 +24,7 @@ GameEngine::GameEngine()
         for (uint16_t chColor = 0; chColor < NUM_COLORS; chColor++)
         {
             colorMap[{Colors[bgColor], Colors[chColor]}] = colorPairIndex;
-            init_pair(colorPairIndex, Colors[bgColor], Colors[chColor]);
+            init_pair(colorPairIndex, Colors[chColor], Colors[bgColor]);
             colorPairIndex++;
         }
     }
@@ -70,8 +72,40 @@ void GameEngine::deregistObject(GameObject* const obj)
 
 void GameEngine::processCollision()
 {
-    // To do: Implement in progress...
-    // 충돌을 확인하는 여러 방법 중 최대한 성능이 괜찮은 방법으로 작성하겠습니다.
+    std::map<Vector2Int, std::vector<GameObject*>, UniqueVectorCompareator> m;
+
+    for (GameObject* obj : objects)
+    {
+        if (!obj->enabled || !obj->isCollisionable())
+            continue;
+
+        for (Pixel& pixel : obj->pixels)
+            m[pixel.pos].push_back(obj);
+    }
+
+    std::set<std::tuple<uint16_t, GameObject*, GameObject*>> collisioned;
+
+    // All GameObjects located in the same position are determined to collide.
+    for (auto& [_, objs] : m)
+    {
+        for (size_t i = 0; i < objs.size(); i++)
+        {
+            for (size_t j = 0; j < objs.size(); j++)
+            {
+                if (i == j)
+                    continue;
+                collisioned.emplace(objs[i]->processOrder, objs[i], objs[j]);
+            }
+        }
+    }
+
+    // Call onCollision events
+    for (auto& [_, obj1, obj2] : collisioned)
+    {
+        if (!obj1->enabled)
+            continue;
+        obj1->onCollision(obj2);
+    }
 }
 
 void GameEngine::updateAll()
@@ -94,10 +128,13 @@ void GameEngine::render()
         return;
     prevRenderTime = now;
 
+    // Clear the screen
+    clear();
+
     // Set default color
     uint16_t defaultColor = colorMap.size() + 1;
 
-    init_pair(defaultColor, defaultbgColor, defaultChColor);
+    init_pair(defaultColor, defaultChColor, defaultbgColor);
     bkgd(COLOR_PAIR(defaultColor));
 
     // Render all objects
@@ -116,14 +153,13 @@ void GameEngine::render()
             if (p.pos.x < 0 || p.pos.y < 0)
                 continue;
 
-            uint16_t colorPairIndex = colorMap[{p.bgColor, p.chColor}];
-
+            const uint16_t colorPairIndex = colorMap[{p.bgColor, p.chColor}];
             attron(COLOR_PAIR(colorPairIndex));
-            mvaddch(p.pos.y, p.pos.x, p.ch);
+
+            const std::string s(std::format("{}", p.ch));
+            mvaddstr(p.pos.y, p.pos.x, s.c_str());
         }
     }
 
-    // Set to default color and refresh
-    attron(COLOR_PAIR(defaultColor));
     refresh();
 }

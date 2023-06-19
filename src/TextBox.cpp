@@ -24,10 +24,10 @@ void TextBox::update()
 
     //score board,mission board에 해당하는 테두리를 여기서 담당하는것
     //수직 테두리
-    for (uint16_t y = 1; y < height - 1; y++)
+    for (uint16_t y = 1; y < height; y++)
     {
         Pixel p;
-        p.ch = '│';
+        p.ch = "│";
         p.pos = Vector2Int(boxX, boxY + y);
 
         pixels.push_back(p);
@@ -36,10 +36,10 @@ void TextBox::update()
         pixels.push_back(p);
     }
     //수평 테두리
-    for (uint16_t x = 1; x < width - 1; x++)
+    for (uint16_t x = 1; x < width; x++)
     {
         Pixel p;
-        p.ch = '─';
+        p.ch = "─";
         p.pos = Vector2Int(boxX + x, boxY);
 
         pixels.push_back(p);
@@ -50,19 +50,19 @@ void TextBox::update()
 
     Pixel p;
     //모서리 테두리
-    p.ch = '┌';
+    p.ch = "┌";
     p.pos = Vector2Int(boxX, boxY);
     pixels.push_back(p);
 
-    p.ch = '└';
+    p.ch = "└";
     p.pos = Vector2Int(boxX, boxY + height);
     pixels.push_back(p);
 
-    p.ch = '┐';
+    p.ch = "┐";
     p.pos = Vector2Int(boxX + width, boxY);
     pixels.push_back(p);
 
-    p.ch = '┘';
+    p.ch = "┘";
     p.pos = Vector2Int(boxX + width, boxY + height);
     pixels.push_back(p);
 }

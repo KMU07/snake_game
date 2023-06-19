@@ -28,5 +28,5 @@ public:
     // This function will be called for every game loop.
     virtual void update();
 
-    virtual void onCollision(GameObject* const other) = 0;
+    virtual void onCollision(GameObject* const other);
 };

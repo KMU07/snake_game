@@ -14,8 +14,8 @@ enum Color
     White = COLOR_WHITE
 };
 
-constexpr uint16_t NUM_COLORS = 8;
-constexpr Color Colors[NUM_COLORS] = {
+inline constexpr uint16_t NUM_COLORS = 8;
+inline constexpr Color Colors[NUM_COLORS] = {
     Color::Black,
     Color::Red,
     Color::Green,
@@ -26,17 +26,13 @@ constexpr Color Colors[NUM_COLORS] = {
     Color::White
 };
 
+// 2바이트 문자들 때문에 ch는 일단 string 타입이나,
+// 의도대로 작동을 원한다면 문자 하나만 넣어야 함
 struct Pixel
 {
     Color bgColor = Color::Black;
     Color chColor = Color::White;
 
     Vector2Int pos;
-    chtype ch;
-
-    Pixel(Vector2Int position, chtype character)
-        : pos(position), ch(character)
-    {
-
-    }
+    std::string ch = "O";
 };

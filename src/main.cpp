@@ -1,7 +1,18 @@
-#include <stdio.h>
+#include <iostream>
+#include <exception>
+#include "SnakeGame.h"
 
-
-int main(int argc, char* argv[])
+int main()
 {
-    printf("Hello, World! World!\n");
+    try
+    {
+        SnakeGame snakeGame;
+        snakeGame.run();
+    }
+    catch (std::exception e)
+    {
+        std::cerr << e.what();
+    }
+
+    return 0;
 }

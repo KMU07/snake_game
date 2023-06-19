@@ -3,9 +3,12 @@
 #include "ScoreBoard.h"
 #include "Pixel.h"
 
-ScoreBoard::ScoreBoard(SnakeStatus& staus)
-    : status(status), TextBox("ScoreBoard")
-{}
+ScoreBoard::ScoreBoard(SnakeStatus& stat)
+    : status(stat), TextBox("ScoreBoard")
+{
+    width = 23;
+    height = 12;
+}
 
 //scoreboard에 있는 내용들을 texts에 넣어주는 작업
 void ScoreBoard::updateText()
@@ -13,7 +16,7 @@ void ScoreBoard::updateText()
     // Score Board 텍스트
     std::string s;
 
-    s = "Score Board";
+    s = "Score board";
 
     for (size_t i = 0; i < s.length(); i++)
     {
@@ -29,7 +32,7 @@ void ScoreBoard::updateText()
 
     //Length:Current Length / Max Length
     std::string Length;
-    Length = std::format("Length: %hu / %hu", status.currentLength, status.maxLength);
+    Length = std::format("Length: {} / {}", status.currentLength, status.maxLength);
     for (size_t i = 0; i < Length.length(); i++)
     {
         const char c = Length[i];
@@ -41,7 +44,7 @@ void ScoreBoard::updateText()
     }
     //wallBounced
     std::string wb;
-    wb = std::format("wallBounced: %hu", status.wallBounced);
+    wb = std::format("WallBounced: {}", status.wallBounced);
     for (size_t i = 0; i < wb.length(); i++)
     {
         const char c = wb[i];
@@ -53,7 +56,7 @@ void ScoreBoard::updateText()
     }
     //boosterGets
     std::string bg;
-    bg = std::format("boosterGets: %hu", status.boosterGets);
+    bg = std::format("BoosterGets: {}", status.boosterGets);
     for (size_t i = 0; i < bg.length(); i++)
     {
         const char c = bg[i];
@@ -65,7 +68,7 @@ void ScoreBoard::updateText()
     }
     //appleGets
     std::string ag;
-    ag = std::format("appleGets: %hu", status.appleGets);
+    ag = std::format("AppleGets: {}", status.appleGets);
     for (size_t i = 0; i < ag.length(); i++)
     {
         const char c = ag[i];
@@ -77,7 +80,7 @@ void ScoreBoard::updateText()
     }
     //poisonGets
     std::string pg;
-    pg = std::format("poisonGets: %hu", status.poisonGets);
+    pg = std::format("PoisonGets: {}", status.poisonGets);
     for (size_t i = 0; i < pg.length(); i++)
     {
         const char c = pg[i];
@@ -89,7 +92,7 @@ void ScoreBoard::updateText()
     }
     //gatePass
     std::string gp;
-    gp = std::format("gatePass: %hu", status.gatePass);
+    gp = std::format("GatePass: {}", status.gatePass);
     for (size_t i = 0; i < gp.length(); i++)
     {
         const char c = gp[i];

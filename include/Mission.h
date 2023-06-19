@@ -5,14 +5,18 @@
 class Mission :public TextBox
 {
     SnakeStatus& status;
+
 public:
-    uint16_t wallBounceGoal;
-    uint16_t boosterGoal;
-    uint16_t appleGoal;
-    uint16_t poisonGoal;
-    uint16_t gatePassGoal;
+    uint16_t wallBounceGoal = 0;
+    uint16_t boosterGoal = 0;
+    uint16_t appleGoal = 0;
+    uint16_t poisonGoal = 0;
+    uint16_t gatePassGoal = 0;
 
 public:
     Mission(SnakeStatus& staus);
+
+    bool allSuccess() const;
+
     void updateText() final;
 };
